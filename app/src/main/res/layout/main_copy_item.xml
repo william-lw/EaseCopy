@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.murui.easecopy.bean.ClipboardBean"/>
+        <variable
+            name="clipBean"
+            type="ClipboardBean" />
+    </data>
+
+    <com.murui.easecopy.view.SwipeMenuLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="#222"
+        android:id="@+id/swipe_layout"
+        android:orientation="horizontal"
+        app:right_id="@+id/swipe_menu">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/clip_description"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:text="@{clipBean.description}" />
+
+                <TextView
+                    android:id="@+id/clip_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@{clipBean.tag}" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/clipboard_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:minHeight="40dp"
+                android:text="@{clipBean.clipContent}"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/swipe_menu"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/main_edit"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:background="#eaeaea"
+                android:gravity="center"
+                android:text="编辑"
+                android:textAlignment="center"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/main_delete"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:background="#D52619"
+                android:gravity="center"
+                android:text="删除"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </com.murui.easecopy.view.SwipeMenuLayout>
+</layout>

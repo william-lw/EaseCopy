@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/out_side"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/clip_content_bg"
+        android:clickable="false">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
+
+        <TextView
+            android:id="@+id/clip_title"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:minHeight="34dp"
+            android:text="选择需要复制的项"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/clip_title"
+            android:background="#555" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/clip_content"
+            android:layout_width="260dp"
+            android:layout_height="360dp"
+            android:layout_below="@id/divider"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="6dp" />
+    </RelativeLayout>
+</LinearLayout>
