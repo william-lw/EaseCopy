@@ -1,18 +1,14 @@
 package com.murui.easecopy;
 
-import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -121,10 +117,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     hideFloatButton();
                     toggleFloatWindow.setLabelText("显示浮窗");
                 } else {
-                    requestSettingCanDrawOverlays();
-                    showedFloatMenu = true;
-                    showFloatButton();
-                    toggleFloatWindow.setLabelText("关闭浮窗");
+                    boolean hasPerMission = checkFloatPermission(this);
+                    if (!hasPerMission) {
+                        Toast.makeText(this, "请打开显示悬浮窗开关!", Toast.LENGTH_LONG).show();
+                        requestSettingCanDrawOverlays();
+                    } else {
+                        showFloat();
+                    }
                 }
                 break;
             case R.id.fab_add_record:
@@ -146,22 +145,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void requestSettingCanDrawOverlays() {
-        PackageManager pm = getPackageManager();
-        boolean hasPerMission = checkFloatPermission(this);
-        Log.d(TAG, "requestSettingCanDrawOverlays: =======hasPerMission: "+hasPerMission);
-        if (!hasPerMission) {
-            Toast.makeText(this, "请打开显示悬浮窗开关!", Toast.LENGTH_LONG).show();
-            int sdkInt = Build.VERSION.SDK_INT;
-            if (sdkInt >= Build.VERSION_CODES.O) {//8.0以上
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                startActivityForResult(intent, REQUEST_DIALOG_PERMISSION);
-            } else if (sdkInt >= Build.VERSION_CODES.M) {//6.0-8.0
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, REQUEST_DIALOG_PERMISSION);
-            } else {//4.4-6.0一下
-                //无需处理了
-            }
+        int sdkInt = Build.VERSION.SDK_INT;
+        if (sdkInt >= Build.VERSION_CODES.O) {//8.0以上
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, REQUEST_DIALOG_PERMISSION);
+        } else if (sdkInt >= Build.VERSION_CODES.M) {//6.0-8.0
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, REQUEST_DIALOG_PERMISSION);
+        } else {//4.4-6.0一下
+            //无需处理了
         }
     }
 
@@ -189,27 +183,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                AppOpsManager appOpsMgr = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-                if (appOpsMgr == null)
-                    return false;
-                int mode = appOpsMgr.checkOpNoThrow("android:system_alert_window", android.os.Process.myUid(), context
-                        .getPackageName());
-                return mode == AppOpsManager.MODE_ALLOWED || mode == AppOpsManager.MODE_IGNORED;
-            } else {
-                return Settings.canDrawOverlays(context);
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                AppOpsManager appOpsMgr = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+//                if (appOpsMgr == null)
+//                    return false;
+//                int mode = appOpsMgr.checkOpNoThrow("android:system_alert_window", android.os.Process.myUid(), context
+//                        .getPackageName());
+//                return mode == AppOpsManager.MODE_ALLOWED || mode == AppOpsManager.MODE_IGNORED;
+//            } else {
+            return Settings.canDrawOverlays(context);
+//            }
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_DIALOG_PERMISSION){
-
+        if (requestCode == REQUEST_DIALOG_PERMISSION && resultCode == 0) {
+            boolean hasPermission = checkFloatPermission(this);
+            if (hasPermission) {
+                showFloat();
+            } else {
+                Toast.makeText(this, "未打开悬浮窗开关!", Toast.LENGTH_LONG).show();
+                showedFloatMenu = false;
+            }
         }
+    }
 
-        Log.d(TAG, "onActivityResult: =====requestCode:"+requestCode+ " resultCode:"+resultCode);
+    private void showFloat() {
+        showedFloatMenu = true;
+        showFloatButton();
+        toggleFloatWindow.setLabelText("关闭浮窗");
     }
 
     private void saveDateToDB(String[] texts) {
