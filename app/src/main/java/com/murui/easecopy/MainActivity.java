@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -50,11 +52,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean showedFloatMenu = false;
     private FloatingActionButton toggleFloatWindow;
     private int REQUEST_DIALOG_PERMISSION = 23;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mHandler = new Handler(getMainLooper());
         ScreenParam.getInstance().init(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -96,8 +100,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ClipboardUtil.getAllRecords(new ClipboardUtil.GetDataDoneCallback() {
             @Override
             public void onGetDone(List<ClipboardDBModel> list) {
-                List<ClipboardBean> clipboardBeans = ClipboardUtil.copyToClipBoardBean(list);
-                adapter.setDateList(clipboardBeans);
+                final List<ClipboardBean> clipboardBeans = ClipboardUtil.copyToClipBoardBean(list);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.setDateList(clipboardBeans);
+                    }
+                });
             }
         });
 
@@ -252,6 +261,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDeleteButtonClick(ClipboardBean clipboardBean) {
-        new Delete().from(ClipboardBean.class).where(ClipboardDBModel_Table.dateLong.eq(clipboardBean.getDateLong())).execute();
+        new Delete().from(ClipboardDBModel.class).where(ClipboardDBModel_Table.dateLong.eq(clipboardBean.getDateLong())).execute();
     }
 }
