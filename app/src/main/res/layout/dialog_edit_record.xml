@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="20dp"
-                android:background="#ccc" />
+                android:background="@color/color_dark" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -98,7 +98,8 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/item_default_margin_value"
+            android:layout_marginBottom="@dimen/item_default_margin_value"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -107,26 +108,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/selector_btn_cancel_border_bg"
+                android:background="@drawable/btn_border_bg"
                 android:gravity="center"
                 android:minHeight="44dp"
                 android:text="取消"
+                android:layout_marginLeft="@dimen/item_default_margin_value"
+                android:layout_marginRight="@dimen/item_default_margin_value"
                 android:textColor="#8a000000"
                 android:textSize="20sp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#ccc" />
 
             <Button
                 android:id="@+id/btn_edit_ok"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/selector_btn_assuere_border_bg"
+                android:background="@drawable/btn_border_bg"
                 android:gravity="center"
                 android:minHeight="44dp"
+                android:layout_marginLeft="@dimen/item_default_margin_value"
+                android:layout_marginRight="@dimen/item_default_margin_value"
                 android:text="确定"
                 android:textColor="#8a000000"
                 android:textSize="20sp" />

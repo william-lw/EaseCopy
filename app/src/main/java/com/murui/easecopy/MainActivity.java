@@ -238,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClipItemClick(ClipboardBean clipboardBean) {
         ClipboardUtil.copyTextToClipboard(this, clipboardBean.getClipContent());
+        Toast.makeText(this, R.string.copy_success, Toast.LENGTH_SHORT).show();
     }
 
     @Override

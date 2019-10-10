@@ -29,6 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/item_default_margin_value"
+        android:layout_marginBottom="@dimen/item_default_margin_value"
         app:menu_colorNormal="@color/colorMainTheme">
 
         <com.github.clans.fab.FloatingActionButton

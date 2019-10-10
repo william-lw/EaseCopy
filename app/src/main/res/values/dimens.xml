@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_default_margin_value">6dp</dimen>
+    <dimen name="clipboard_content_margin">10dp</dimen>
+    <dimen name="swipe_menu_btn_width">64dp</dimen>
+    <dimen name="swipe_menu_btn_text_size">16sp</dimen>
+    <dimen name="swipe_menu_width">128dp</dimen>
+    <dimen name="clipboard_content_main_item_text_size">14sp</dimen>
+    <dimen name="main_item_title_line_height">20dp</dimen>
+    <dimen name="summary_text_size">12sp</dimen>
+</resources>

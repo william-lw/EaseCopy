@@ -4,20 +4,22 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.murui.easecopy.bean.ClipboardBean"/>
+
+        <import type="com.murui.easecopy.bean.ClipboardBean" />
+
         <variable
             name="clipBean"
             type="ClipboardBean" />
     </data>
 
     <com.murui.easecopy.view.SwipeMenuLayout
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        bind:setBackground="@{clipBean.itemState}"
-        android:id="@+id/swipe_layout"
         android:orientation="horizontal"
-        app:right_id="@+id/swipe_menu">
+        app:right_id="@+id/swipe_menu"
+        bind:setBackground="@{clipBean.itemState}">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,19 +28,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_height="@dimen/main_item_title_line_height"
+                android:layout_marginLeft="@dimen/item_default_margin_value"
+                android:layout_marginTop="@dimen/item_default_margin_value"
+                android:layout_marginRight="@dimen/item_default_margin_value"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/clip_description"
                     android:layout_width="60dp"
-                    android:textColor="@color/summary_text_color"
                     android:layout_height="match_parent"
-                    android:text="@{clipBean.description}" />
+                    android:textSize="@dimen/summary_text_size"
+                    android:text="@{clipBean.description}"
+                    android:textColor="@color/summary_text_color" />
 
                 <TextView
                     android:id="@+id/clip_tag"
@@ -47,8 +50,9 @@
                     android:layout_gravity="right"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:textColor="@color/summary_text_color"
-                    android:text="@{clipBean.dateTxt}" />
+                    android:textSize="@dimen/summary_text_size"
+                    android:text="@{clipBean.dateTxt}"
+                    android:textColor="@color/summary_text_color" />
 
             </LinearLayout>
 
@@ -56,43 +60,46 @@
                 android:id="@+id/clipboard_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="@dimen/item_default_margin_value"
+                android:layout_marginTop="@dimen/clipboard_content_margin"
+                android:layout_marginRight="@dimen/item_default_margin_value"
+                android:layout_marginBottom="@dimen/item_default_margin_value"
                 android:gravity="center"
-                android:minHeight="40dp"
-                android:textColor="@color/clipbord_content_text_color"
+                android:minLines="2"
                 android:text="@{clipBean.clipContent}"
-                android:textSize="12sp" />
+                android:textColor="@color/clipbord_content_text_color"
+                android:textSize="@dimen/clipboard_content_main_item_text_size" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/swipe_menu"
-            android:layout_width="128dp"
-            android:gravity="center"
-            android:background="@drawable/edit_text_bg"
+            android:layout_width="@dimen/swipe_menu_width"
             android:layout_height="match_parent"
+            android:background="@drawable/edit_text_bg"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/main_edit"
-                android:layout_width="64dp"
+                android:layout_width="@dimen/swipe_menu_btn_width"
                 android:layout_height="match_parent"
                 android:background="@drawable/edit_btn_bg"
                 android:gravity="center"
                 android:text="编辑"
                 android:textAlignment="center"
                 android:textColor="#222222"
-                android:textSize="16sp" />
+                android:textSize="@dimen/swipe_menu_btn_text_size" />
 
             <Button
                 android:id="@+id/main_delete"
-                android:layout_width="64dp"
+                android:layout_width="@dimen/swipe_menu_btn_width"
                 android:layout_height="match_parent"
                 android:background="@drawable/delate_btn_bg"
                 android:gravity="center"
                 android:text="删除"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:textSize="@dimen/swipe_menu_btn_text_size" />
 
         </LinearLayout>
     </com.murui.easecopy.view.SwipeMenuLayout>

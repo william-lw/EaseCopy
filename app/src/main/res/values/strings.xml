@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EasyCopy</string>
+    <string name="copy_success">已复制！</string>
 </resources>

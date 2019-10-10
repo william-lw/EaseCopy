@@ -8,4 +8,6 @@
     <color name="clipbord_content_text_color">#a000</color>
     <color name="normal_bg_color">#4EE0</color>
     <color name="item_checked_color">#60f0</color>
+    <color name="dialog_bg_color">#6B5</color>
+    <color name="color_dark">#cccc</color>
 </resources>

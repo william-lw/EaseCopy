@@ -136,7 +136,7 @@ public class FloatViewService extends Service {
             @Override
             public void onClipItemClick(ClipboardBean text) {
                 ClipboardUtil.copyTextToClipboard(getApplicationContext(), text.getClipContent());
-                Toast.makeText(getApplicationContext(), "已复制！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.copy_success, Toast.LENGTH_SHORT).show();
                 hidePopupWindow();
             }
 
