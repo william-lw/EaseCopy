@@ -8,7 +8,7 @@
         android:id="@+id/alert_window_imagebtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@mipmap/circle_cyan"
+        android:background="@mipmap/copy_icon"
         android:contentDescription="@null" />
 
 

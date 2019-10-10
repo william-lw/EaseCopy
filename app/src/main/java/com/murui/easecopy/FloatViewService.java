@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -23,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.murui.easecopy.bean.ClipboardBean;
+import com.murui.easecopy.bean.ClipboardDBModel;
 import com.murui.easecopy.util.ClipboardUtil;
 import com.murui.easecopy.view.ClipBoardContentView;
 
@@ -68,7 +70,6 @@ public class FloatViewService extends Service {
         initFloatButtonView(inflater);
         initClipboardContentView(inflater);
         setOnFloatViewListener();
-        ClipboardUtil.getRecentClipboardTexts(getApplicationContext());
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -126,9 +127,10 @@ public class FloatViewService extends Service {
             @Override
             public void onClick(View v) {
                 if (!showPopup) {
-                    mWindowManager.addView(mFloatWindow, popupParams);
+                    showPopupWindow();
+                    setFlotWindowContent();
                 } else {
-                    mWindowManager.removeView(mFloatWindow);
+                    hidePopupWindow();
                 }
                 showPopup = !showPopup;
             }
@@ -137,18 +139,30 @@ public class FloatViewService extends Service {
         popupContent.setOnClipTextItemClickListener(new OnFloatWindowClickListener() {
             @Override
             public void onClipItemClick(ClipboardBean text) {
-                Toast.makeText(getApplicationContext(), "  " + text.getClipContent(), Toast.LENGTH_SHORT).show();
+                ClipboardUtil.copyTextToClipboard(getApplicationContext(), text.getClipContent());
+                Toast.makeText(getApplicationContext(), "已复制！", Toast.LENGTH_SHORT).show();
+                hidePopupWindow();
             }
 
             @Override
             public void onOutsideClick() {
-                if (mWindowManager != null && mFloatWindow != null && showPopup) {
-                    mWindowManager.removeView(mFloatWindow);
-                    showPopup = false;
-                }
+                hidePopupWindow();
             }
         });
 
+    }
+
+    private void hidePopupWindow() {
+        if (mWindowManager != null && mFloatWindow != null && showPopup) {
+            mWindowManager.removeView(mFloatWindow);
+            showPopup = false;
+        }
+    }
+
+    private void showPopupWindow() {
+        if (mWindowManager != null && mFloatWindow != null && popupParams != null) {
+            mWindowManager.addView(mFloatWindow, popupParams);
+        }
     }
 
     private void initFloatButtonView(LayoutInflater inflater) {
@@ -157,7 +171,9 @@ public class FloatViewService extends Service {
         mWindowManager = (WindowManager) getApplication().getSystemService(
                 getApplication().WINDOW_SERVICE);
         // 设置window type
-        wmParams.type = LayoutParams.TYPE_PHONE;
+
+        setVmType(wmParams);
+
         // 设置图片格式，效果为背景透明
         wmParams.format = PixelFormat.RGBA_8888;
         // 设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
@@ -185,13 +201,27 @@ public class FloatViewService extends Service {
                 .makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
     }
 
+    private void setVmType(WindowManager.LayoutParams wmParams) {
+        if (Build.VERSION.SDK_INT >= 26 && EaseCopyApplication.appContext.getApplicationInfo().targetSdkVersion > 22) {
+            wmParams.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            PackageManager pm = getApplicationContext().getPackageManager();
+            boolean permission = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.SYSTEM_ALERT_WINDOW", getPackageName()));
+            if (permission || "Xiaomi".equals(Build.MANUFACTURER) || "vivo".equals(Build.MANUFACTURER)) {
+                wmParams.type = LayoutParams.TYPE_PHONE;
+            } else {
+                wmParams.type = LayoutParams.TYPE_TOAST;
+            }
+        }
+    }
+
     private void initClipboardContentView(LayoutInflater inflater) {
         //显示所有的需要复制到剪贴版的文本
         popupParams = new LayoutParams();
         popupParams.gravity = Gravity.CENTER;
         popupParams.width = LayoutParams.MATCH_PARENT;
         popupParams.height = LayoutParams.MATCH_PARENT;
-        popupParams.type = LayoutParams.TYPE_PHONE;
+        setVmType(popupParams);
         // 设置图片格式，效果为背景透明
         popupParams.format = PixelFormat.RGBA_8888;
         // 设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
@@ -203,13 +233,28 @@ public class FloatViewService extends Service {
         mFloatWindow.measure(View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED), View.MeasureSpec
                 .makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        List<ClipboardBean> arrayList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            ClipboardBean clipboardBean = new ClipboardBean();
-            clipboardBean.setClipContent("liuwei " + i);
-            arrayList.add(clipboardBean);
+    }
+
+    private void setFlotWindowContent() {
+        final List<ClipboardBean> result = new ArrayList<>();
+        List<String> clipboardTexts = ClipboardUtil.getRecentClipboardTexts(getApplicationContext());
+        if (clipboardTexts != null && clipboardTexts.size() > 0) {
+            for (int i = 0; i < clipboardTexts.size(); i++) {
+                ClipboardBean clipboardBean = new ClipboardBean();
+                clipboardBean.setClipContent(clipboardTexts.get(i));
+                clipboardBean.setDescription("最近使用");
+                result.add(clipboardBean);
+            }
         }
-        popupContent.setDataList(arrayList);
+
+        ClipboardUtil.getAllRecords(new ClipboardUtil.GetDataDoneCallback() {
+            @Override
+            public void onGetDone(List<ClipboardDBModel> list) {
+                List<ClipboardBean> clipboardBeans = ClipboardUtil.copyToClipBoardBean(list);
+                result.addAll(result.size(), clipboardBeans);
+            }
+        });
+        popupContent.setDataList(result);
     }
 
 

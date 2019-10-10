@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="10dip"
+    android:layout_marginRight="10dip"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:id="@+id/layout_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/roundlayout"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_edit_record"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/dialog_edit_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:lineSpacingExtra="6dp"
+                android:text="添加/修改记录"
+                android:textColor="#bf000000"
+                android:textSize="26sp" />
+
+            <View
+                android:id="@+id/v_edit_dividing"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:background="#ccc" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:lineSpacingExtra="6dp"
+                android:text="概述："
+                android:textColor="#383838"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/dialog_clipboard_summary"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="34dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edit_text_bg"
+                android:gravity="center"
+                android:inputType="text"
+                android:hint="简短描述文本内容"
+                android:lineSpacingExtra="6dp"
+                android:textColor="#383838"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:lineSpacingExtra="6dp"
+                android:text="文本："
+                android:textColor="#383838"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/dialog_clipboard_content"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edit_text_bg"
+                android:gravity="center"
+                android:hint="文本内容"
+                android:minLines="2"
+                android:lineSpacingExtra="6dp"
+                android:textColor="#383838"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_marginTop="6dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_edit_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_btn_cancel_border_bg"
+                android:gravity="center"
+                android:minHeight="44dp"
+                android:text="取消"
+                android:textColor="#8a000000"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#ccc" />
+
+            <Button
+                android:id="@+id/btn_edit_ok"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_btn_assuere_border_bg"
+                android:gravity="center"
+                android:minHeight="44dp"
+                android:text="确定"
+                android:textColor="#8a000000"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

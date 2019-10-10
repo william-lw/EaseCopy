@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="page_indicator_dot_size">4dp</dimen>
+</resources>

@@ -12,9 +12,13 @@ import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.murui.easecopy.bean.ClipboardBean;
+import com.murui.easecopy.bean.ClipboardDBModel;
 import com.murui.easecopy.databinding.MainCopyItemBinding;
 import com.murui.easecopy.view.SwipeMenuLayout;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 public class ClipContentAdapter extends RecyclerView.Adapter<ClipContentAdapter.ClipHolder> {
@@ -23,10 +27,20 @@ public class ClipContentAdapter extends RecyclerView.Adapter<ClipContentAdapter.
     private List<ClipboardBean> dataList;
     private OnClipBoardItemClickListener itemListener;
     private Context mContext;
+    private HashSet<ClipboardBean> selectSet = new HashSet<ClipboardBean>();
 
     public void setDateList(List<ClipboardBean> strList) {
         this.dataList = strList;
         notifyDataSetChanged();
+    }
+
+    public void addDateToLast(ClipboardBean bean){
+        if (dataList == null){
+            dataList = new ArrayList<>();
+        }
+        int size = dataList.size();
+        dataList.add(size, bean);
+        notifyItemInserted(dataList.size() -1);
     }
 
     public void setOnClipBoardItemClickListener(OnClipBoardItemClickListener listener) {
@@ -46,20 +60,34 @@ public class ClipContentAdapter extends RecyclerView.Adapter<ClipContentAdapter.
     public void onBindViewHolder(@NonNull final ClipHolder holder, final int position) {
         final ClipboardBean clipboardBean = dataList.get(position);
         holder.binding.setVariable(BR.clipBean, clipboardBean);
+        holder.binding.executePendingBindings();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (itemListener != null) {
-                    itemListener.onClipItemClick(clipboardBean.getClipContent());
+                    itemListener.onClipItemClick(clipboardBean);
                 }
+                if (!selectSet.isEmpty()) {
+                    for (int i = 0; i < selectSet.size(); i++) {
+                        Iterator<ClipboardBean> iterator = selectSet.iterator();
+                        while (iterator.hasNext()) {
+                            ClipboardBean next = iterator.next();
+                            next.setItemState(false);
+                            iterator.remove();
+                        }
+                    }
+                }
+                clipboardBean.setItemState(true);
+                selectSet.add(clipboardBean);
             }
         });
+
         holder.mainDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.swipeLayout.smoothToCloseMenu();
                 if (itemListener != null) {
-                    itemListener.onDeleteButtonClick();
+                    itemListener.onDeleteButtonClick(clipboardBean);
                 }
                 dataList.remove(clipboardBean);
                 notifyItemRemoved(position);

@@ -3,4 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="summary_text_color">#7000</color>
+    <color name="colorMainTheme">#66AA55</color>
+    <color name="clipbord_content_text_color">#a000</color>
+    <color name="normal_bg_color">#4EE0</color>
+    <color name="item_checked_color">#60f0</color>
 </resources>

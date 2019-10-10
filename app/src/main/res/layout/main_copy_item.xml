@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
         <import type="com.murui.easecopy.bean.ClipboardBean"/>
@@ -12,8 +13,8 @@
     <com.murui.easecopy.view.SwipeMenuLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:background="#222"
+        android:layout_margin="6dp"
+        bind:setBackground="@{clipBean.itemState}"
         android:id="@+id/swipe_layout"
         android:orientation="horizontal"
         app:right_id="@+id/swipe_menu">
@@ -21,18 +22,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/clip_description"
                     android:layout_width="60dp"
+                    android:textColor="@color/summary_text_color"
                     android:layout_height="match_parent"
                     android:text="@{clipBean.description}" />
 
@@ -43,7 +47,8 @@
                     android:layout_gravity="right"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="@{clipBean.tag}" />
+                    android:textColor="@color/summary_text_color"
+                    android:text="@{clipBean.dateTxt}" />
 
             </LinearLayout>
 
@@ -54,6 +59,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:minHeight="40dp"
+                android:textColor="@color/clipbord_content_text_color"
                 android:text="@{clipBean.clipContent}"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -61,6 +67,8 @@
         <LinearLayout
             android:id="@+id/swipe_menu"
             android:layout_width="128dp"
+            android:gravity="center"
+            android:background="@drawable/edit_text_bg"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -68,7 +76,7 @@
                 android:id="@+id/main_edit"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
-                android:background="#eaeaea"
+                android:background="@drawable/edit_btn_bg"
                 android:gravity="center"
                 android:text="编辑"
                 android:textAlignment="center"
@@ -79,7 +87,7 @@
                 android:id="@+id/main_delete"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
-                android:background="#D52619"
+                android:background="@drawable/delate_btn_bg"
                 android:gravity="center"
                 android:text="删除"
                 android:textAlignment="center"

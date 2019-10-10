@@ -1,38 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="4dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorMainTheme"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_clipboard"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/normal_bg_color" />
 
     <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/action_menu"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_label="Menu item 3" />
+        app:menu_icon="@mipmap/fab_icon"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        app:menu_colorNormal="@color/colorMainTheme">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab22"
+            android:id="@+id/fab_float_window"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="Menu item 2" />
+            android:src="@mipmap/float_window"
+            app:fab_colorNormal="@color/colorMainTheme"
+            app:fab_label="显示浮窗" />
+
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_item"
+            android:id="@+id/fab_add_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="Menu item 1" />
+            android:src="@mipmap/add_record"
+            app:fab_colorNormal="@color/colorMainTheme"
+            app:fab_label="添加记录" />
     </com.github.clans.fab.FloatingActionMenu>
 
-</LinearLayout>
+</RelativeLayout>
