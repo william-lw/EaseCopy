@@ -77,7 +77,6 @@ public class FloatViewService extends Service {
         // 设置监听浮动窗口的触摸移动
         mFloatView.setOnTouchListener(new OnTouchListener() {
 
-            private int leftDistance;
             private float rawX;
             private float rawY;
 
@@ -98,11 +97,8 @@ public class FloatViewService extends Service {
                         // getRawX是触摸位置相对于屏幕的坐标，getX是相对于按钮的坐标
                         int distanceX = (int) (event.getRawX() - rawX);
                         int distanceY = (int) (event.getRawY() - rawY);
-                        leftDistance = (int) event.getRawX()
-                                + mFloatView.getMeasuredWidth() / 2;
-
-                        wmParams.x = wmParams.x - distanceX;
-                        wmParams.y = wmParams.y - distanceY;
+                        wmParams.x = wmParams.x + distanceX;
+                        wmParams.y = wmParams.y + distanceY;
                         // 刷新
                         mWindowManager.updateViewLayout(mFloatLayout, wmParams);
                         rawX = event.getRawX();
@@ -111,7 +107,7 @@ public class FloatViewService extends Service {
                     case MotionEvent.ACTION_UP:
                         Log.e(TAG, "ACTION_UP");
                         myCountDownTimer.start();
-                        if (wmParams.x > leftDistance) {
+                        if (wmParams.x > screenWidth/2) {
                             wmParams.x = screenWidth - mFloatView.getMeasuredWidth() / 2;
                         } else {
                             wmParams.x = 0;
